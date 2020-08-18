@@ -1,0 +1,1 @@
+insert into user_account values (1, 'Anton');
