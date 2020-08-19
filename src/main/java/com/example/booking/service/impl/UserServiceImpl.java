@@ -1,6 +1,7 @@
 package com.example.booking.service.impl;
 
 import com.example.booking.dto.user.CreateUserRequestDTO;
+import com.example.booking.dto.user.InternalUserDetailsDTO;
 import com.example.booking.dto.user.UpdateUserRequestDTO;
 import com.example.booking.dto.user.UserDTO;
 import com.example.booking.exception.BookingException;
@@ -9,19 +10,22 @@ import com.example.booking.model.RoleEntity;
 import com.example.booking.model.UserEntity;
 import com.example.booking.repository.RoleRepository;
 import com.example.booking.repository.UserRepository;
+import com.example.booking.service.InternalUserDetailsService;
 import com.example.booking.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, InternalUserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDTO getById(Long id) throws BookingException {
@@ -32,7 +36,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO create(CreateUserRequestDTO request) throws BookingException {
         RoleEntity role = roleRepository.findMainEntityById(request.getRoleId());
 
-        return userMapper.toDTO(userRepository.save(userMapper.toEntity(request, role)));
+        return userMapper.toDTO(userRepository.save(userMapper.toEntity(request, role,
+                bCryptPasswordEncoder.encode(request.getPassword()))));
     }
 
     @Override
@@ -45,5 +50,10 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDTO> getList() {
         return userMapper.toListDTO(userRepository.findAll());
+    }
+
+    @Override
+    public InternalUserDetailsDTO getUserByLogin(String login) {
+        return userMapper.toUserDetailDTO(userRepository.findByLogin(login));
     }
 }
