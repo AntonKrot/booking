@@ -1,7 +1,7 @@
 package com.example.booking.repository;
 
+import com.example.booking.common.BaseRepository;
 import com.example.booking.model.RoomTypeEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoomTypeRepository extends JpaRepository<RoomTypeEntity, Short> {
+public interface RoomTypeRepository extends BaseRepository<RoomTypeEntity, Short> {
 }

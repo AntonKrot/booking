@@ -14,6 +14,8 @@ insert into booking_status
 values (2, 'in_process');
 insert into booking_status
 values (3, 'finished');
+insert into booking_status
+values (4, 'canceled');
 
 insert into role
 values (1, 'ROLE_ADMIN');
