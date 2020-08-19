@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "room")
+@RequestMapping(value = "booking")
 @RequiredArgsConstructor
 public class BookingController {
 
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @GetMapping("/{id}")
     public BookingDTO getById(@PathVariable("id") Long id) throws BookingException {

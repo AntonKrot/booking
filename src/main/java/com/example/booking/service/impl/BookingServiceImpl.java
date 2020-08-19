@@ -13,6 +13,7 @@ import com.example.booking.repository.BookingRepository;
 import com.example.booking.repository.BookingStatusRepository;
 import com.example.booking.repository.RoomRepository;
 import com.example.booking.repository.UserRepository;
+import com.example.booking.security.AuthenticationFacade;
 import com.example.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class BookingServiceImpl implements BookingService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final BookingMapper bookingMapper;
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public BookingDTO getById(Long id) throws BookingException {
@@ -39,8 +41,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDTO create(CreateBookingRequestDTO request) throws BookingException {
-        //todo get from userDetails
-        UserEntity user = userRepository.findMainEntityById(1L);
+        UserEntity user = userRepository.findMainEntityById(authenticationFacade.getUserDetails().getId());
         BookingStatusEntity bookingStatusEntity = bookingStatusRepository.findMainEntityById(NEW.getId());
         RoomEntity room = roomRepository.findMainEntityById(request.getRoomId());
 

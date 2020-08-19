@@ -1,6 +1,7 @@
 package com.example.booking.mapper;
 
 import com.example.booking.dto.user.CreateUserRequestDTO;
+import com.example.booking.dto.user.InternalUserDetailsDTO;
 import com.example.booking.dto.user.UpdateUserRequestDTO;
 import com.example.booking.dto.user.UserDTO;
 import com.example.booking.model.RoleEntity;
@@ -19,16 +20,22 @@ public abstract class UserMapper {
     public abstract UserDTO toDTO(UserEntity entity);
 
     public abstract List<UserDTO> toListDTO(List<UserEntity> entities);
-
-    @Mapping(target = "role", expression = "java(role)")
+    @Mappings({
+    @Mapping(target = "role", expression = "java(role)"),
+    @Mapping(target = "password", expression = "java(password)"),
+    })
     public abstract UserEntity toEntity(CreateUserRequestDTO dto,
-                                        @Context RoleEntity role);
+                                        @Context RoleEntity role,
+                                        String password);
 
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "role", expression = "java(role)")
+            @Mapping(target = "role", expression = "java(role)"),
     })
     public abstract UserEntity toEntity(@MappingTarget UserEntity entity,
                                         UpdateUserRequestDTO dto,
                                         @Context RoleEntity role);
+
+    @Mapping(target = "roleId", source = "role.id")
+    public abstract InternalUserDetailsDTO toUserDetailDTO(UserEntity user);
 }
