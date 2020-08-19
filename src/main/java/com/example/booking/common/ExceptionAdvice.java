@@ -1,4 +1,4 @@
-package com.example.booking.exception.handler;
+package com.example.booking.common;
 
 import com.example.booking.exception.BookingException;
 import com.example.booking.exception.NotFoundException;
@@ -18,7 +18,7 @@ public class ExceptionAdvice {
 
         return ResponseEntity
                 .status(exception.getCode())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(exception.getMessage());
     }
 }

@@ -1,9 +1,19 @@
 package com.example.booking.service;
 
+import com.example.booking.dto.user.CreateUserRequestDTO;
+import com.example.booking.dto.user.UpdateUserRequestDTO;
+import com.example.booking.dto.user.UserDTO;
 import com.example.booking.exception.BookingException;
-import com.example.booking.model.UserEntity;
+
+import java.util.List;
 
 public interface UserService {
 
-    UserEntity getById(Long id) throws BookingException;
+    UserDTO getById(Long id) throws BookingException;
+
+    UserDTO create(CreateUserRequestDTO request) throws BookingException;
+
+    UserDTO update(UpdateUserRequestDTO request) throws BookingException;
+
+    List<UserDTO> getList();
 }
