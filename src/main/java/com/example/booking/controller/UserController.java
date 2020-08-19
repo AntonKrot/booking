@@ -1,5 +1,6 @@
 package com.example.booking.controller;
 
+import com.example.booking.dto.user.UserDTO;
 import com.example.booking.exception.BookingException;
 import com.example.booking.model.UserEntity;
 import com.example.booking.service.UserService;
@@ -17,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public UserEntity getById(@PathVariable("id") Long id) throws BookingException {
+    public UserDTO getById(@PathVariable("id") Long id) throws BookingException {
         return userService.getById(id);
     }
 }
