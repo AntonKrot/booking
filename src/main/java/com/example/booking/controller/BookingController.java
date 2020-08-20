@@ -1,6 +1,7 @@
 package com.example.booking.controller;
 
 import com.example.booking.dto.booking.BookingDTO;
+import com.example.booking.dto.booking.BookingSearchCriteriaDTO;
 import com.example.booking.dto.booking.CreateBookingRequestDTO;
 import com.example.booking.dto.booking.UpdateBookingRequestDTO;
 import com.example.booking.exception.BookingException;
@@ -37,8 +38,13 @@ public class BookingController {
         return bookingService.update(request);
     }
 
-    @GetMapping("/list")
-    public List<BookingDTO> getList() {
-        return bookingService.getList();
+    @PostMapping("/list")
+    public List<BookingDTO> getList(@RequestBody BookingSearchCriteriaDTO criteria) {
+        return bookingService.getList(criteria);
+    }
+
+    @GetMapping("/cancel/{id}")
+    public void getList(@PathVariable("id") Long id) throws BookingException {
+        bookingService.cancelBooking(id);
     }
 }
