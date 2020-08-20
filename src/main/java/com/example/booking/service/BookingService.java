@@ -1,6 +1,7 @@
 package com.example.booking.service;
 
 import com.example.booking.dto.booking.BookingDTO;
+import com.example.booking.dto.booking.BookingSearchCriteriaDTO;
 import com.example.booking.dto.booking.CreateBookingRequestDTO;
 import com.example.booking.dto.booking.UpdateBookingRequestDTO;
 import com.example.booking.exception.BookingException;
@@ -15,7 +16,7 @@ public interface BookingService {
 
     BookingDTO update(UpdateBookingRequestDTO request) throws BookingException;
 
-    List<BookingDTO> getList();
+    List<BookingDTO> getList(BookingSearchCriteriaDTO criteria);
 
     void cancelBooking(Long bookingId) throws BookingException;
 }
