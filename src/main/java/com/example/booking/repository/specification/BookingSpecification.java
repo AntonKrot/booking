@@ -42,7 +42,7 @@ public class BookingSpecification implements Specification<BookingEntity> {
 
         if (criteria.getStatusId() != null) {
             Join<BookingEntity, BookingStatusEntity> statusJoin = root.join(BookingEntity_.bookingStatus, JoinType.LEFT);
-            predicateBuilder.appendCondition(builder.equal(statusJoin.get(BookingStatusEntity_.id), criteria.getUserId()));
+            predicateBuilder.appendCondition(builder.equal(statusJoin.get(BookingStatusEntity_.id), criteria.getStatusId()));
 
         }
 
