@@ -120,7 +120,6 @@ public class BookingServiceImpl implements BookingService {
         List<BookingEntity> bookings = bookingRepository.findAllByDayAndBookingStatus(LocalDate.now().atTime(LocalTime.MIN),
                 LocalDate.now().atTime(LocalTime.MAX), NEW.getId());
 
-        System.err.println(bookings.size());
         for (BookingEntity booking : bookings) {
             if (booking.getEndDateTime().isAfter(LocalDateTime.now())) {
                 booking.setBookingStatus(bookingStatusRepository.findMainEntityById(BookingStatusEnum.FINISHED.getId()));
