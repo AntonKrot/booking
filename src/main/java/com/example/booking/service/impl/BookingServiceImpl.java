@@ -5,6 +5,7 @@ import com.example.booking.dto.booking.BookingDTO;
 import com.example.booking.dto.booking.BookingSearchCriteriaDTO;
 import com.example.booking.dto.booking.CreateBookingRequestDTO;
 import com.example.booking.dto.booking.UpdateBookingRequestDTO;
+import com.example.booking.enums.BookingStatusEnum;
 import com.example.booking.exception.BookingException;
 import com.example.booking.exception.BusinessConstraintViolationException;
 import com.example.booking.mapper.BookingMapper;
@@ -21,11 +22,14 @@ import com.example.booking.security.AuthenticationFacade;
 import com.example.booking.service.BookingService;
 import com.example.booking.utils.DateTimeUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.example.booking.enums.BookingStatusEnum.CANCELED;
@@ -46,6 +50,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDTO getById(Long id) throws BookingException {
+        finishedBooking();
         return bookingMapper.toDTO(bookingRepository.findMainEntityById(id));
     }
 
@@ -108,5 +113,19 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setBookingStatus(bookingStatusRepository.findMainEntityById(CANCELED.getId()));
         bookingRepository.save(booking);
+    }
+
+    @Scheduled(cron = "${booking.finished.schedule}")
+    public void finishedBooking() throws BookingException {
+        List<BookingEntity> bookings = bookingRepository.findAllByDayAndBookingStatus(LocalDate.now().atTime(LocalTime.MIN),
+                LocalDate.now().atTime(LocalTime.MAX), NEW.getId());
+
+        for (BookingEntity booking : bookings) {
+            if (booking.getEndDateTime().isAfter(LocalDateTime.now())) {
+                booking.setBookingStatus(bookingStatusRepository.findMainEntityById(BookingStatusEnum.FINISHED.getId()));
+            }
+        }
+
+        bookingRepository.saveAll(bookings);
     }
 }

@@ -64,6 +64,9 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct}</version>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<build>

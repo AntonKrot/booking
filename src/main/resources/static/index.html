@@ -8,56 +8,58 @@
     <title>Booking</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/script.js"></script>
 </head>
 <body>
 <div class="container">
+    <header>
+        <div class="row">
+            <div class="col-xl-6"></div>
+            <div class="col-xl-6 user-name text-right"></div>
+        </div>
+    </header>
     <div class="table-responsive">
+        <div class="line mb-3 mt-3">
+            <button class="btn btn-success addRoom">Добавить помещение</button>
+        </div>
         <table class="table table-bordered table-hover ">
             <thead class="thead-dark">
             <tr>
                 <th>Дата с</th>
                 <th>Дата по</th>
                 <th>Наименование манипуляций</th>
-                <th>Номер кабинета</th>
                 <th>Описание</th>
+                <th>Тип помещения</th>
                 <th></th>
             </tr>
             </thead>
-            <tbody>
-            <tr attr="112">
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>4</td>
-                <td>
-                    <button class="btn btn-danger">Удалить</button>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>4</td>
-                <td>
-                    <button class="btn btn-danger">Удалить</button>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>4</td>
-                <td>
-                    <button class="btn btn-danger">Удалить</button>
-                </td>
-            </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>
+
+<div class="popup addRoom">
+    <h1>Добавить помещений</h1>
+
+    <div class="form">
+        <div class="form-group">
+            <label for="a1">
+                <select class="form-control select" name="type" id="a1"></select>
+            </label>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control note" name="note" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="row mt-2 border-1">
+        <div class="col-xl-4 offset-2">
+            <button class="btn btn-block btn-danger closePopup">Закрыть</button>
+        </div>
+        <div class="col-xl-4">
+            <button class="btn btn-block btn-dark successPopup">Ок</button>
+        </div>
+    </div>
+</div>
+<script src="js/script.js"></script>
 </body>
 </html>
