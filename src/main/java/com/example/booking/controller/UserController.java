@@ -6,7 +6,6 @@ import com.example.booking.dto.user.UserDTO;
 import com.example.booking.exception.BookingException;
 import com.example.booking.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public UserDTO getById(@PathVariable("id") Long id) throws BookingException {
         return userService.getById(id);
@@ -39,9 +38,14 @@ public class UserController {
         return userService.update(request);
     }
 
-//    @PreAuthorize("isAuthenticated()")
+    //    @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
     public List<UserDTO> getList() {
         return userService.getList();
+    }
+
+    @GetMapping("/current")
+    public UserDTO getCurrentUser() throws BookingException {
+        return userService.getCurrentUser();
     }
 }

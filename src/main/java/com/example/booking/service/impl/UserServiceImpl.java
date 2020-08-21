@@ -11,6 +11,7 @@ import com.example.booking.model.RoleEntity;
 import com.example.booking.model.UserEntity;
 import com.example.booking.repository.RoleRepository;
 import com.example.booking.repository.UserRepository;
+import com.example.booking.security.AuthenticationFacade;
 import com.example.booking.service.InternalUserDetailsService;
 import com.example.booking.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService, InternalUserDetailsService 
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final FieldValidator fieldValidator;
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public UserDTO getById(Long id) throws BookingException {
@@ -58,6 +60,11 @@ public class UserServiceImpl implements UserService, InternalUserDetailsService 
 
     public List<UserDTO> getList() {
         return userMapper.toListDTO(userRepository.findAll());
+    }
+
+    @Override
+    public UserDTO getCurrentUser() throws BookingException {
+        return getById(authenticationFacade.getUserDetails().getId());
     }
 
     @Override

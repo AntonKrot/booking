@@ -16,4 +16,6 @@ public interface UserService {
     UserDTO update(UpdateUserRequestDTO request) throws BookingException;
 
     List<UserDTO> getList();
+
+    UserDTO getCurrentUser() throws BookingException;
 }

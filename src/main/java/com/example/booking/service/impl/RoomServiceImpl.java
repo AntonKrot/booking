@@ -3,6 +3,7 @@ package com.example.booking.service.impl;
 import com.example.booking.common.FieldValidator;
 import com.example.booking.dto.dictionary.DictionaryDTO;
 import com.example.booking.dto.room.CreateRoomRequestDTO;
+import com.example.booking.dto.room.FreeRoomRequestDTO;
 import com.example.booking.dto.room.RoomDTO;
 import com.example.booking.dto.room.UpdateRoomRequestDTO;
 import com.example.booking.exception.BookingException;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,5 +65,11 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomDTO> getList() {
         return roomMapper.toListDTO(roomRepository.findAll());
+    }
+
+    @Override
+    public List<RoomDTO> getFreeRoomList(FreeRoomRequestDTO request) throws BookingException {
+        fieldValidator.verify(request);
+        return roomMapper.toListDTO(roomRepository.findAllFreeRoom(request.getStartDateTime(), request.getEndDateTime()));
     }
 }

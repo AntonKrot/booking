@@ -13,16 +13,16 @@ public interface BookingRepository extends BaseRepository<BookingEntity, Long>, 
     @Query(value = "select exists(select b " +
             "from booking b " +
             "where b.user_account_id = :userId " +
-            "and (:startDateTime between b.start_date_time and b.end_date_time " +
-            "or :endDateTime between b.start_date_time and b.end_date_time))", nativeQuery = true)
+            "and ((b.start_date_time <= :startDateTime and b.end_date_time > :startDateTime) " +
+            "or  (b.start_date_time < :endDateTime and b.end_date_time >= :endDateTime)))", nativeQuery = true)
     Boolean isIntersectingManipulationForUser(@Param("userId") Long userId, @Param("startDateTime") LocalDateTime startDateTime,
                                               @Param("endDateTime") LocalDateTime endDateTime);
 
     @Query(value = "select exists(select b " +
             "from booking b " +
             "where b.room_id = :roomId " +
-            "and (:startDateTime between b.start_date_time and b.end_date_time " +
-            "or :endDateTime between b.start_date_time and b.end_date_time))", nativeQuery = true)
+            "and ((b.start_date_time <= :startDateTime and b.end_date_time > :startDateTime) " +
+            "or  (b.start_date_time < :endDateTime and b.end_date_time >= :endDateTime)))", nativeQuery = true)
     Boolean isTakenBookingTime(@Param("roomId") Long roomId, @Param("startDateTime") LocalDateTime startDateTime,
-                                              @Param("endDateTime") LocalDateTime endDateTime);
+                               @Param("endDateTime") LocalDateTime endDateTime);
 }
